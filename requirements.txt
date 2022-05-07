@@ -6,4 +6,4 @@ passlib==1.7.4
 python-dotenv==0.19.2
 bcrypt==3.2.0
 jose==1.0.0
-pymongo==4.0
+pymongo[tls,srv]
