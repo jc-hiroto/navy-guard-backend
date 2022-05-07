@@ -3,7 +3,7 @@ from jose import JWTError
 import uvicorn
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
-from datetime import datetime
+from datetime import date, datetime, time
 import uuid
 from pydantic import BaseModel, Field
 from authorization import *
@@ -23,7 +23,7 @@ app.add_middleware(
 
 # Req types
 class MemberPatch(BaseModel):
-    type: int
+    type: str
 
 class Schedule(BaseModel):
     id: str = Field(alias='_id')
@@ -31,8 +31,7 @@ class Schedule(BaseModel):
 
 class QueuePost(BaseModel):
     member_id: int
-    skipped_date: datetime
-    skipped_reason: str
+    skipped_date: date
     status: int
 
 class QueuePatch(BaseModel):
@@ -80,7 +79,7 @@ def get_member(member_id: int):
 def get_member(member_id: int):
     if db.members.find_one({"_id": member_id}) is None:
         raise HTTPException(status_code=404, detail="Member not found")
-    queue = db.queue.find({"member_id": member_id})
+    queue = db.queues.find({"member_id": member_id})
     return {"status": "OK", "queue": list(queue)}
  
 @app.patch("/api/v1/members/{member_id}")
@@ -136,17 +135,19 @@ def get_queue(queue_id: int):
 
 @app.post("/api/v1/queues")
 def create_queue(queue: QueuePost, token: str = Depends(oauth2_scheme)):
-    queue._id = str(uuid.uuid4())
-    db.queues.insert_one(queue.dict(by_alias=True))
+    dict_queue = queue.dict(by_alias=True)
+    dict_queue["skipped_date"] = datetime.combine(dict_queue["skipped_date"], time.min)
+    dict_queue["_id"] = str(uuid.uuid4())
+    db.queues.insert_one(dict_queue)
     return {"status": "OK"}
 
 @app.patch("/api/v1/queues/{queue_id}")
-def update_queue(queue_id: int, queue: QueuePatch, token: str = Depends(oauth2_scheme)):
+def update_queue(queue_id: str, queue: QueuePatch, token: str = Depends(oauth2_scheme)):
     db.queues.update_one({"_id": queue_id}, {"$set": queue.dict(by_alias=True)})
     return {"status": "OK"}
 
 @app.delete("/api/v1/queues/{queue_id}")
-def delete_queue(queue_id: int, token: str = Depends(oauth2_scheme)):
+def delete_queue(queue_id: str, token: str = Depends(oauth2_scheme)):
     db.queues.delete_one({"_id": queue_id})
     return {"status": "OK"}
 
