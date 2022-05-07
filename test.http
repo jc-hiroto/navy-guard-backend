@@ -1,0 +1,130 @@
+@host=http://localhost:5000
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqYzFAZ21haWwuY29tIiwiZXhwIjoxNjQxNDY5MDAxfQ.FyJdCwfZI10tXgklO9PI7lLxkBXad8DDmhaZIJqATzM
+
+GET {{host}}/api/v1/healthcheck
+###
+
+GET {{host}}/api/v1/members
+
+###
+
+GET {{host}}/api/v1/members/11
+
+
+###
+
+GET {{host}}/api/v1/schedules
+
+###
+
+GET {{host}}/api/v1/schedules/2022-05-05
+
+###
+
+POST {{host}}/api/v1/schedules
+
+{
+  "_id": "2022-05-06",
+  "data": {
+    "1":[
+      {
+        "id": 1,
+        "status": 1
+      },
+      {
+        "id": 2,
+        "status": 0
+      }
+    ],
+    "2":[
+      {
+        "id": 3,
+        "status": -1
+      },
+      {
+        "id": 4,
+        "status": 0
+      }
+    ],
+    "3":[
+      {
+        "id": 3,
+        "status": 0
+      },
+      {
+        "id": 4,
+        "status": 0
+      }
+    ],
+    "4":[
+      {
+        "id": 3,
+        "status": 0
+      },
+      {
+        "id": 4,
+        "status": 0
+      }
+    ],
+    "5":[
+      {
+        "id": 3,
+        "status": 0
+      },
+      {
+        "id": 4,
+        "status": 0
+      }
+    ],
+    "6":[
+      {
+        "id": 3,
+        "status": 0
+      },
+      {
+        "id": 4,
+        "status": 0
+      }
+    ],
+    "7":[
+      {
+        "id": 3,
+        "status": 0
+      },
+      {
+        "id": 4,
+        "status": 0
+      }
+    ],
+    "8":[
+      {
+        "id": 3,
+        "status": 0
+      },
+      {
+        "id": 4,
+        "status": 0
+      }
+    ]
+  }
+}
+
+###
+
+POST {{host}}/api/v1/users
+
+{
+  "_id": "",
+  "name": "",
+  "type": 1,
+  "password": ""
+}
+
+###
+
+POST {{host}}/api/v1/auth
+
+{
+  "_id": "103",
+  "password": ""
+}
