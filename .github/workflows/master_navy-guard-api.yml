@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'navy-guard-api'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CB44C7F3DE7748B0990D1DCB0CC8F21C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D22B4992DB5144A0B2FE3E13C655FF26 }}
